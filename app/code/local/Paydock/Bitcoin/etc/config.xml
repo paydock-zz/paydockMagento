@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category   Paydock
+ * @package    Paydock_Bitcoin
+ * @copyright  Copyright (c) 2014 Vnphpexpert.com
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Paydock_Bitcoin>
+            <version>1.0.0</version>
+        </Paydock_Bitcoin>
+    </modules>
+	<frontend>
+        <routers>
+            <bitcoin>
+                <use>standard</use>
+                <args>
+                    <module>Paydock_Bitcoin</module>
+                    <frontName>bitcoin</frontName>
+                </args>
+            </bitcoin>
+        </routers>
+    </frontend>
+    <global>
+        <models>
+            <bitcoin>
+                <class>Paydock_Bitcoin_Model</class>
+            </bitcoin>
+        </models>
+		<events>
+		  <controller_action_layout_load_before> <!-- identifier of the event we want to catch -->
+			<observers>
+			  <controller_action_layout_load_before_handler> <!-- identifier of the event handler -->
+				<type>model</type> <!-- class method call type; valid are model, object and singleton -->
+				<class>bitcoin/observer</class> <!-- observers class alias -->
+				<method>errorAction</method>  <!-- observer's method to be called -->
+				<args></args> <!-- additional arguments passed to observer -->
+			  </controller_action_layout_load_before_handler>
+			</observers>
+		  </controller_action_layout_load_before>
+		</events>
+        <resources>
+            <bitcoin_setup>
+                <setup>
+                    <module>Paydock_Bitcoin</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </bitcoin_setup>
+            <bitcoin_write>
+                <use>core_write</use>
+            </bitcoin_write>
+            <bitcoin_read>
+                <use>core_read</use>
+            </bitcoin_read>
+        </resources>
+        <helpers>
+            <bitcoin>
+                <class>Paydock_Bitcoin_Helper</class>
+            </bitcoin>
+        </helpers>
+        <blocks>
+            <bitcoin><class>Paydock_Bitcoin_Block</class></bitcoin>
+        </blocks>
+    </global>
+
+    <default>
+        <payment>
+            <bitcoin>
+                <active>0</active>
+                <model>bitcoin/bitcoin</model>
+                <order_status>1</order_status>
+                <title>Paydock Bitcoin</title>
+                <order_status>processing</order_status>
+            </bitcoin>
+        </payment>
+    </default>
+</config>
